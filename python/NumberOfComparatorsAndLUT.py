@@ -19,6 +19,7 @@ N = 352
 
 input = np.arange(2,N+1)
 comparators = [i*(i-1)/2 for i in input]
+comparators2 = [i*16 for i in input]
 
 
 
@@ -380,6 +381,7 @@ LF =[
 LFT = list(map(list, zip(*LF)))
 
 Comparators = (input, comparators)
+Comparators2 = (input, comparators2)
 LUTs = (LFT[0], [x/1000 for x in LFT[1]])
 FFs = (LFT[0], LFT[2])
 
@@ -417,6 +419,7 @@ make_patch_spines_invisible(par2)
 par2.spines["right"].set_visible(True)
 
 p1, = host.plot(*Comparators, "b-", label="Comparators")
+#p1, = host.plot(*Comparators2, "b-", label="Comparators")
 p2, = par1.plot([2,352],[1182,1182], "r--",label="k LUTs")
 par1.text(5, 1225, "Limit for XCVU9P", fontsize=10, fontdict=dict(color='red'))
 p2, = par1.plot([2,352],[1728,1728], "r--",label="k LUTs")
@@ -458,6 +461,6 @@ host.legend(lines, [l.get_label() for l in lines])
 
 plt.title('Paralell Sorting Logic Resources Usage')
 
-plt.show()
+#plt.show()
 
 plt.savefig('NumberOfComparatorsAndLUT.pdf')
