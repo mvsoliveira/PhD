@@ -55,7 +55,7 @@ LF =[
  [29, 12952, 258],
  [30, 13585, 258],
  [31, 14398, 258],
- [32, 14889, 258], #18509 after implementation
+ [32, 14889, 258],
  [33, 16689, 258],
  [34, 18970, 258],
  [35, 19675, 258],
@@ -399,43 +399,43 @@ FFsi = (input, f(input))
 
 # plotting
 
-xafter2 = 8
-xstep = 8
+xafter2 = 16
+xstep = 28
 
 fig, host = plt.subplots()
-fig.subplots_adjust(right=0.75)
+#fig.subplots_adjust(right=0.75)
 
 par1 = host.twinx()
-par2 = host.twinx()
+#par2 = host.twinx()
 
 # Offset the right spine of par2.  The ticks and label have already been
 # placed on the right by twinx above.
-par2.spines["right"].set_position(("axes", 1.2))
+#par2.spines["right"].set_position(("axes", 1.2))
 # Having been created by twinx, par2 has its frame off, so the line of its
 # detached spine is invisible.  First, activate the frame but make the patch
 # and spines invisible.
-make_patch_spines_invisible(par2)
+#make_patch_spines_invisible(par2)
 # Second, show the right spine.
-par2.spines["right"].set_visible(True)
+#par2.spines["right"].set_visible(True)
 
 p1, = host.plot(*Comparators, "b-", label="Comparators")
 #p1, = host.plot(*Comparators2, "b-", label="Comparators")
-p2, = par1.plot([2,352],[1182/10,1182/10], "r--",label="k LUTs")
-par1.text(5, 120, "10% limit for XCVU9P", fontsize=10, fontdict=dict(color='red'))
-p2, = par1.plot([2,352],[1728/10,1728/10], "r--",label="k LUTs")
-par1.text(5, 175, "10% limit for XCVU13P", fontsize=10, fontdict=dict(color='red'))
+p2, = par1.plot([2,352],[1182,1182], "r--",label="k LUTs")
+par1.text(16+5, 1225, "Limit for XCVU9P", fontsize=10, fontdict=dict(color='red'))
+p2, = par1.plot([2,352],[1728,1728], "r--",label="k LUTs")
+par1.text(16+5, 1775, "Limit for XCVU13P", fontsize=10, fontdict=dict(color='red'))
 p2, = par1.plot(*LUTs, "r*", label="k LUTs")
 p2, = par1.plot(*LUTsi, "r-",label="k LUTs")
-p3, = par2.plot(*FFs, "g^", label="FFs")
-p3, = par2.plot([2,352],[0.00015*2364000,0.00015*2364000], "g--",label="k LUTs")
-par2.text(5, 370, "0.015% of XCVU9P", fontsize=10, fontdict=dict(color='green'))
-p3, = par2.plot(*FFsi, "g-", label="FFs")
+#p3, = par2.plot(*FFs, "g^", label="FFs")
+#p3, = par2.plot([2,352],[0.00015*2364000,0.00015*2364000], "g--",label="k LUTs")
+#par2.text(16+5, 370, "0.015% of XCVU9P", fontsize=10, fontdict=dict(color='green'))
+#p3, = par2.plot(*FFsi, "g-", label="FFs")
 
 
-host.set_xlim(2, 104)
-host.set_ylim(0, 5700)
-par1.set_ylim(0, 200)
-par2.set_ylim(1, 1000)
+host.set_xlim(16, 352)
+host.set_ylim(0, 65000)
+par1.set_ylim(0, 2500)
+#par2.set_ylim(1, 1000)
 
 xticks = np.concatenate(([2],np.arange(xafter2,N+1,xstep)))
 plt.xticks(xticks,xticks)
@@ -443,24 +443,25 @@ plt.xticks(xticks,xticks)
 host.set_xlabel("Inputs")
 host.set_ylabel("Comparators")
 par1.set_ylabel("k LUTs")
-par2.set_ylabel("FFs")
+#par2.set_ylabel("FFs")
 
 host.yaxis.label.set_color(p1.get_color())
 par1.yaxis.label.set_color(p2.get_color())
-par2.yaxis.label.set_color(p3.get_color())
+#par2.yaxis.label.set_color(p3.get_color())
 
 tkw = dict(size=4, width=1.5)
 host.tick_params(axis='y', colors=p1.get_color(), **tkw)
 par1.tick_params(axis='y', colors=p2.get_color(), **tkw)
-par2.tick_params(axis='y', colors=p3.get_color(), **tkw)
+#par2.tick_params(axis='y', colors=p3.get_color(), **tkw)
 host.tick_params(axis='x', **tkw)
 
-lines = [p1, p2, p3]
+#lines = [p1, p2, p3]
+lines = [p1, p2]
 
-host.legend(lines, [l.get_label() for l in lines], loc='lower right')
+host.legend(lines, [l.get_label() for l in lines])
 
 plt.title('Paralell Sorting Logic Resources Usage')
 
 #plt.show()
-print('finished')
-plt.savefig('NumberOfComparatorsAndLUT.pdf')
+
+plt.savefig('NumberOfComparatorsAndLUT352.pdf')
